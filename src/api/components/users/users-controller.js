@@ -89,3 +89,9 @@ async function getProfile(request, response, next) {
     return next(error);
   }
 }
+
+module.exports = {
+  register,
+  login,
+  getProfile,
+};

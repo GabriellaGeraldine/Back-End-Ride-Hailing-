@@ -11,4 +11,6 @@ module.exports = (app) => {
 
   //private
   router.get('/profile', auth, usersController.getProfile);
-}
+
+  return router;
+};
