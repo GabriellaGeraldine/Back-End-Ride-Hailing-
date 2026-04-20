@@ -1,9 +1,9 @@
-const usersRepository = require("./users-repository");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const { hashPassword } = require("../../../utils/password");
+const usersRepository = require('./users-repository');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const { hashPassword } = require('../../../utils/password');
 
-const SECRET = "KELOMPOK_8";
+const SECRET = 'KELOMPOK_8';
 
 async function createUser(username, email, password, fullName) {
   return usersRepository.createUser(username, email, password, fullName);
@@ -22,7 +22,7 @@ async function checkLogin(email, password) {
   if (!match) return null;
 
   const token = jwt.sign({ id: user._id, role: user.role }, SECRET, {
-    expiresIn: "1d",
+    expiresIn: '1d',
   });
 
   return { token, role: user.role };

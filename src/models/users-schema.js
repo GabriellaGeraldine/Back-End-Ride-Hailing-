@@ -9,11 +9,11 @@ module.exports = (db) => {
       // TAMBAHKAN ROLE DI SINI
       role: {
         type: String,
-        enum: ["user", "admin"],
-        default: "user"
+        enum: ['user', 'admin'],
+        default: 'user',
       },
     },
-    { timestamps: true, versionKey: false },
-  ); 
-  return db.model("User", userSchema);
+    { timestamps: true, versionKey: false }
+  );
+  return db.model('User', userSchema);
 };
