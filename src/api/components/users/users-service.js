@@ -1,5 +1,4 @@
 const usersRepository = require("./users-repository");
-const transportRepository = require("../transport/transport-repository");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { hashPassword } = require("../../../utils/password");
@@ -8,6 +7,11 @@ const SECRET = "KELOMPOK_8";
 
 async function createUser(username, email, password, fullName) {
   return usersRepository.createUser(username, email, password, fullName);
+}
+
+async function emailExists(email) {
+  const user = await usersRepository.getUserByEmail(email);
+  return !!user;
 }
 
 async function checkLogin(email, password) {
@@ -27,3 +31,10 @@ async function checkLogin(email, password) {
 async function getProfile(id) {
   return usersRepository.getUserById(id);
 }
+
+module.exports = {
+  createUser,
+  emailExists,
+  checkLogin,
+  getProfile,
+};
