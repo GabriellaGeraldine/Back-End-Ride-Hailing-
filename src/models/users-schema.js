@@ -9,7 +9,7 @@ module.exports = (db) => {
       // TAMBAHKAN ROLE DI SINI
       role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: ['user', 'admin', 'driver'],
         default: 'user',
       },
     },
