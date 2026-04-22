@@ -1,6 +1,6 @@
 const usersService = require('./users-service');
 const { errorResponder, errorTypes } = require('../../../core/errors');
-const { hashPassword } = require('../../../utils/password');
+const { hashPassword, passwordMatched } = require('../../../utils/password');
 
 async function register(request, response, next) {
   try {
@@ -85,8 +85,67 @@ async function getProfile(request, response, next) {
   }
 }
 
+async function edit(request, response, next) {
+  try {
+    const { username, fullName } = request.body;
+
+    const updateResult = await usersService.editUser(request.user.id, {
+      username,
+      fullName,
+    });
+
+    if (!updateResult) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to update profile'
+      );
+    }
+
+    return response.status(200).json({
+      message: 'Profil berhasil diupdate',
+      data: updateResult,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function changePassword(request, response, next) {
+  try {
+    const { oldPassword, newPassword } = request.body;
+    const user = await usersService.getProfile(request.user.id);
+
+    const isMatch = await passwordMatched(oldPassword, user.password);
+    if (!isMatch) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Old password does not match'
+      );
+    }
+
+    const success = await usersService.updatePassword(
+      request.user.id,
+      newPassword
+    );
+    if (!success) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to change password'
+      );
+    }
+
+    return response
+      .status(200)
+      .json({ message: 'Nicee password kamu telah diganti' });
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
   getProfile,
+  edit,
+  changePassword,
 };
