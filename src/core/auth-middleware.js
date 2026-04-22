@@ -1,17 +1,24 @@
 const jwt = require('jsonwebtoken');
-const KUNCI_RAHASIA = 'KELOMPOK_8';
+const { errorResponder, errorTypes } = require('./errors');
 
-module.exports = (req, res, next) => {
-  const token = req.headers['authorization'];
+const SECRET = 'KELOMPOK_8';
 
-  if (!token)
-    return res.status(401).json({ error: 'Token gak ada, login dulu!' });
+module.exports = (request, response, next) => {
+  const token = request.headers['authorization'];
+
+  if (!token) {
+    return next(errorResponder(errorTypes.UNAUTHORIZED, 'Token missing'));
+  }
 
   try {
-    const dataToken = jwt.verify(token, KUNCI_RAHASIA);
-    req.user = dataToken;
-    next();
-  } catch (err) {
-    res.status(403).json({ error: 'Token lo salah atau udah basi.' });
+    const decoded = jwt.verify(token, SECRET);
+
+    request.user = decoded;
+
+    return next();
+  } catch (error) {
+    return next(
+      errorResponder(errorTypes.FORBIDDEN, 'Token invalid or expired')
+    );
   }
 };
