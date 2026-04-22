@@ -55,9 +55,24 @@ async function detailOrder(id) {
   return transportRepository.getOrderById(id);
 }
 
+async function completeOrder(id) {
+  return transportRepository.updateStatusOrder(id, 'completed');
+}
+
+async function cancelOrder(id) {
+  return transportRepository.updateStatusOrder(id, 'cancelled');
+}
+
+async function getUserHistory(userId) {
+  return transportRepository.getUserOrders(userId);
+}
+
 module.exports = {
   getTypes,
   countEstimate,
   processRequestOrder,
   detailOrder,
+  completeOrder,
+  cancelOrder,
+  getUserHistory,
 };

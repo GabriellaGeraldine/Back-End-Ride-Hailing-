@@ -84,9 +84,53 @@ async function getDetail(request, response, next) {
   }
 }
 
+async function completeOrder(request, response, next) {
+  try {
+    const order = await transportService.completeOrder(request.params.id);
+
+    return response.status(200).json({
+      message: 'Perjalanan selesai!',
+      data: order,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function cancel(request, response, next) {
+  try {
+    const { id } = request.params;
+    const result = await transportService.cancelOrder(id);
+
+    return response.status(200).json({
+      message: 'Order berhasil dibatalkan dan saldo dikembalikan',
+      data: result,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function getHistory(request, response, next) {
+  try {
+    const userId = request.user.id;
+    const history = await transportService.getUserHistory(userId);
+
+    return response.status(200).json({
+      message: 'Riwayat perjalanan berhasil diambil',
+      data: history,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   getTypes,
   estimate,
   requestOrder,
   getDetail,
+  completeOrder,
+  cancel,
+  getHistory,
 };
