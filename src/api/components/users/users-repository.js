@@ -5,7 +5,7 @@ async function createUser(username, email, password, fullName) {
 }
 
 async function getUserByEmail(email) {
-  return await User.findOne({ email: email });
+  return User.findOne({ email });
 }
 
 async function getUserById(id) {

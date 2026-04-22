@@ -10,7 +10,17 @@ async function getOrderById(id) {
     .populate('driverId', 'fullName');
 }
 
+async function updateStatusOrder(id, status) {
+  return Transport.findByIdAndUpdate(id, { status }, { new: true });
+}
+
+async function getUserOrders(userId) {
+  return Transport.find({ userId }).sort({ createdAt: -1 });
+}
+
 module.exports = {
   makeNewOrder,
   getOrderById,
+  updateStatusOrder,
+  getUserOrders,
 };
