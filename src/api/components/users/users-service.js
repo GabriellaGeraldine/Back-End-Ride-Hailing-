@@ -1,6 +1,6 @@
-const usersRepository = require('./users-repository');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const usersRepository = require('./users-repository');
 const { hashPassword } = require('../../../utils/password');
 
 const SECRET = 'KELOMPOK_8';

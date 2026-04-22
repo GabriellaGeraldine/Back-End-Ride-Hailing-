@@ -22,7 +22,11 @@ async function countEstimate(type, distance) {
 }
 
 async function processRequestOrder(userId, data) {
-  const totalPrice = Number(data.price);
+  const info = VEHICLE_TYPE[data.type];
+  if (!info) throw new Error('Tipe kendaraan tidak tersedia');
+
+  const totalPrice = info.pricePerKm * Number(data.distance);
+
   if (!totalPrice || totalPrice <= 0) throw new Error('Harga tidak valid');
 
   await paymentService.processAutoPayment(

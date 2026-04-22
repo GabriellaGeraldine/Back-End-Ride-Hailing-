@@ -75,7 +75,19 @@ async function pay(request, response, next) {
   }
 }
 
+async function getHistory(request, response, next) {
+  try {
+    const userId = request.user.id;
+    const history = await paymentService.getHistory(userId);
+
+    return response.status(200).json(history);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   topUp,
   pay,
+  getHistory,
 };

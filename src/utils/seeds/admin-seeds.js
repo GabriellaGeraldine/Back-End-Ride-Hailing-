@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const { User } = require('../../models');
-const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const adminData = {

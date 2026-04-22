@@ -123,7 +123,7 @@ async function cancelAndRefund(request, response, next) {
       );
     }
 
-    const updatedUser = await transportService.refundSaldo(
+    const updatedUser = await transportService.refundBalance(
       order.userId,
       order.price
     );
@@ -134,6 +134,7 @@ async function cancelAndRefund(request, response, next) {
         'Order batal, tapi gagal refund saldo'
       );
     }
+
     return response.status(200).json({
       message: 'Order berhasil dibatalkan dan saldo dikembalikan',
       data: cancelledOrder,
