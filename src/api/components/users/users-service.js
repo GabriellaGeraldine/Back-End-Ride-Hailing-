@@ -32,9 +32,24 @@ async function getProfile(id) {
   return usersRepository.getUserById(id);
 }
 
+async function editUser(id, newData) {
+  const dataUpdate = {
+    fullName: newData.fullName,
+    username: newData.username,
+  };
+  return usersRepository.update(id, dataUpdate);
+}
+
+async function updatePassword(id, newPassword) {
+  const hashedPassword = await hashPassword(newPassword);
+  return usersRepository.changePassword(id, hashedPassword);
+}
+
 module.exports = {
   createUser,
   emailExists,
   checkLogin,
   getProfile,
+  editUser,
+  updatePassword,
 };
