@@ -23,7 +23,7 @@ module.exports = () => {
   router.delete(
     '/orders/:id/cancel',
     authMiddleware,
-    transportController.cancel
+    transportController.cancelAndRefund
   );
   router.get('/history', authMiddleware, transportController.getHistory);
 

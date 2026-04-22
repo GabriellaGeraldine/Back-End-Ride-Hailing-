@@ -100,8 +100,9 @@ async function completeOrder(request, response, next) {
 async function cancelAndRefund(request, response, next) {
   try {
     const { id } = request.params;
-    const result = await transportService.cancelOrder(id);
-    const order = await transportService.detailOrder(request.params.id);
+
+    const order = await transportService.detailOrder(id);
+
     if (!order) {
       throw errorResponder(errorTypes.NOT_FOUND, 'Order tidak ditemukan');
     }
@@ -135,7 +136,7 @@ async function cancelAndRefund(request, response, next) {
     }
     return response.status(200).json({
       message: 'Order berhasil dibatalkan dan saldo dikembalikan',
-      data: result,
+      data: cancelledOrder,
     });
   } catch (error) {
     return next(error);
