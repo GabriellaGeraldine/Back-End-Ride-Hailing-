@@ -5,6 +5,7 @@ module.exports = {
   ],
 
   LIST_DRIVER_CAR: [
+    '69e8c6a0f874c8e898b14637',
     // isi menggunakan filie dari drivers-seeds yang telah dirun
   ],
 

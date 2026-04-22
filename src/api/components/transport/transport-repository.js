@@ -1,5 +1,4 @@
-const { Transport } = require('../../../models');
-const User = require('../../../models/users-schema');
+const { Transport, User } = require('../../../models');
 
 async function makeNewOrder(dataOrder) {
   return Transport.create(dataOrder);
