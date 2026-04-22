@@ -18,9 +18,14 @@ async function getUserOrders(userId) {
   return Transport.find({ userId }).sort({ createdAt: -1 });
 }
 
+async function getAllOrdersForAdmin() {
+  return Transport.find().sort({ createdAt: -1 });
+}
+
 module.exports = {
   makeNewOrder,
   getOrderById,
   updateStatusOrder,
   getUserOrders,
+  getAllOrdersForAdmin,
 };
