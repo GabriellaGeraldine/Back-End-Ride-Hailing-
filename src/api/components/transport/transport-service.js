@@ -63,6 +63,10 @@ async function cancelOrder(id) {
   return transportRepository.updateStatusOrder(id, 'cancelled');
 }
 
+async function refundBalance(userId, amount) {
+  return transportRepository.returnBalance(userId, amount);
+}
+
 async function getUserHistory(userId) {
   return transportRepository.getUserOrders(userId);
 }
@@ -78,6 +82,7 @@ module.exports = {
   detailOrder,
   completeOrder,
   cancelOrder,
+  refundBalance,
   getUserHistory,
   getAllHistoryAdmin,
 };

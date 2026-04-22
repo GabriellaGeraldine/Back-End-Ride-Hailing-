@@ -97,11 +97,42 @@ async function completeOrder(request, response, next) {
   }
 }
 
-async function cancel(request, response, next) {
+async function cancelAndRefund(request, response, next) {
   try {
     const { id } = request.params;
     const result = await transportService.cancelOrder(id);
+    const order = await transportService.detailOrder(request.params.id);
+    if (!order) {
+      throw errorResponder(errorTypes.NOT_FOUND, 'Order tidak ditemukan');
+    }
 
+    if (order.status === 'canceled') {
+      throw errorResponder(
+        errorTypes.BAD_REQUEST,
+        'Order sudah dibatalkan sebelumnya'
+      );
+    }
+
+    const cancelledOrder = await transportService.cancelOrder(id);
+
+    if (!cancelledOrder) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Gagal membatalkan order'
+      );
+    }
+
+    const updatedUser = await transportService.refundSaldo(
+      order.userId,
+      order.price
+    );
+
+    if (!updatedUser) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Order batal, tapi gagal refund saldo'
+      );
+    }
     return response.status(200).json({
       message: 'Order berhasil dibatalkan dan saldo dikembalikan',
       data: result,
@@ -144,7 +175,7 @@ module.exports = {
   requestOrder,
   getDetail,
   completeOrder,
-  cancel,
+  cancelAndRefund,
   getHistory,
   getAllHistory,
 };
