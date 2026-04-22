@@ -125,6 +125,19 @@ async function getHistory(request, response, next) {
   }
 }
 
+async function getAllHistory(request, response, next) {
+  try {
+    const allHistory = await transportService.getAllHistoryAdmin();
+
+    return response.status(200).json({
+      message: 'Seluruh riwayat perjalanan berhasil ditarik (Admin Mode)',
+      data: allHistory,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   getTypes,
   estimate,
@@ -133,4 +146,5 @@ module.exports = {
   completeOrder,
   cancel,
   getHistory,
+  getAllHistory,
 };

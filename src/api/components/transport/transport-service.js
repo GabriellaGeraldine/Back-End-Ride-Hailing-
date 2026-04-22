@@ -67,6 +67,10 @@ async function getUserHistory(userId) {
   return transportRepository.getUserOrders(userId);
 }
 
+async function getAllHistoryAdmin() {
+  return transportRepository.getAllOrdersForAdmin();
+}
+
 module.exports = {
   getTypes,
   countEstimate,
@@ -75,4 +79,5 @@ module.exports = {
   completeOrder,
   cancelOrder,
   getUserHistory,
+  getAllHistoryAdmin,
 };
