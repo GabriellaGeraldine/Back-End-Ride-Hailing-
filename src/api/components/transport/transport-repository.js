@@ -1,4 +1,5 @@
 const { Transport } = require('../../../models');
+const User = require('../../../models/users-schema');
 
 async function makeNewOrder(dataOrder) {
   return Transport.create(dataOrder);
@@ -12,6 +13,14 @@ async function getOrderById(id) {
 
 async function updateStatusOrder(id, status) {
   return Transport.findByIdAndUpdate(id, { status }, { new: true });
+}
+
+async function returnBalance(userId, amount) {
+  return User.findByIdAndUpdate(
+    userId,
+    { $inc: { balance: amount } },
+    { new: true }
+  );
 }
 
 async function getUserOrders(userId) {
@@ -28,4 +37,5 @@ module.exports = {
   updateStatusOrder,
   getUserOrders,
   getAllOrdersForAdmin,
+  returnBalance,
 };
